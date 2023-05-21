@@ -55,7 +55,7 @@ public class ReturnVoidFF implements FlowFunction<DFF> {
         if(actualParam.getO1().getType() instanceof RefType){
             Body activeBody = method.getActiveBody();
             UnitPatchingChain units = activeBody.getUnits();
-            int idIndex = -1; // @this
+            int idIndex = method.isStatic() ? 0 : -1; // @this is only in virtual invoke
             for (Unit unit : units) {
                 if(unit instanceof JIdentityStmt){
                     JIdentityStmt id = (JIdentityStmt) unit;

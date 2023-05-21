@@ -18,21 +18,22 @@ public class CallToReturnFlowFunctionProvider implements FlowFunctionProvider<DF
 
     private FlowFunction<DFF> flowFunction;
 
-    public CallToReturnFlowFunctionProvider(SootMethod method, Unit curr, DFF zeroValue, List<SootMethodRef> sources){
-        if(curr instanceof DefinitionStmt) {
+    public CallToReturnFlowFunctionProvider(SootMethod method, Unit curr, DFF zeroValue, List<SootMethodRef> sources) {
+        if (curr instanceof DefinitionStmt) {
             DefinitionStmt def = (DefinitionStmt) curr;
             Value lhs = def.getLeftOp();
             Value rhs = def.getRightOp();
             if (rhs instanceof InvokeExpr) {
                 InvokeExpr invoke = (InvokeExpr) rhs;
                 SootMethodRef methodRef = invoke.getMethodRef();
-                if(sources.contains(methodRef)){
+                if (sources.contains(methodRef)) {
                     flowFunction = new SourceFF(new DFF(lhs, curr), zeroValue, AliasHandlerProvider.get(method, curr, lhs));
+                    return;
                 }
             }
-        }else{
-            flowFunction =  new KillStaticCTRFF();
         }
+        flowFunction = new KillStaticCTRFF();
+
     }
 
     @Override

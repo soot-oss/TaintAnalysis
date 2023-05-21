@@ -5,6 +5,8 @@ import analysis.data.DFF;
 import analysis.flowfunctions.normal.*;
 import heros.FlowFunction;
 import heros.flowfunc.Identity;
+import heros.flowfunc.Kill;
+import heros.flowfunc.KillAll;
 import soot.Local;
 import soot.SootMethod;
 import soot.Unit;
@@ -34,6 +36,8 @@ public class NormalFlowFunctionProvider implements FlowFunctionProvider<DFF> {
             } else if (rhs instanceof JArrayRef) {
                 JArrayRef arrRef = (JArrayRef) rhs;
                 flowFunction = new ArrayLoadFF(arrRef, lhs, zeroValue, AliasHandlerProvider.get(method, curr, lhs));
+            } else if(rhs instanceof Constant){
+                flowFunction = new KillFF(lhs, zeroValue);
             }
         }
     }

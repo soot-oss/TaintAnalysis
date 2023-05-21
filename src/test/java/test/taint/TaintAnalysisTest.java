@@ -67,6 +67,7 @@ public class TaintAnalysisTest extends IFDSTestSetUp {
         // first remove intermediate vars
         Supplier<Predicate<String>> pred = () -> p -> !(p.startsWith("$stack") || p.startsWith("varReplacer"));
         defaultIDEResult = defaultIDEResult.stream().filter(pred.get()).collect(Collectors.toSet());
+        assertTrue(defaultIDEResult.size() == expected.size());
         assertTrue(msg(defaultIDEResult, expected), defaultIDEResult.containsAll(expected));
     }
 
@@ -89,5 +90,214 @@ public class TaintAnalysisTest extends IFDSTestSetUp {
         checkResults(defaultIDEResult, expected);
     }
 
+    @Test
+    public void Assignment2() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Assignment2.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Assignment3() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Assignment3.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Assignment4() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Assignment4.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        expected.add("b");
+        expected.add("c");
+        expected.add("d");
+        expected.add("e");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Assignment5() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Assignment5.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add(target.taint.Assignment5.class.getName() + ".a");
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Field() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Field.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("f.x");
+        expected.add("f.y");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Field2() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Field2.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("f.x");
+        expected.add("y");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Field3() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Field3.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("f.x");
+        expected.add("alias.x");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Field4() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Field4.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("f.x");
+        expected.add("f.y");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Field5() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Field5.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("f.x");
+        expected.add("alias.x");
+        expected.add("a");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Branching() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Branching.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Branching2() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Branching2.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Branching3() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Branching3.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Branching4() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Branching4.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Branching5() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Branching5.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Context() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Context.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Context2() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Context2.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Context3() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Context3.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Context4() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Context4.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        expected.add("b");
+        expected.add("c");
+        expected.add("f.x");
+        expected.add("f.y");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Context5() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Context5.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add(target.taint.Context5.class.getName() + ".a");
+        expected.add("b");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Loop() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Loop.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        checkResults(defaultIDEResult, expected);
+    }
+
+    @Test
+    public void Loop2() {
+        JimpleIFDSSolver<?, ? extends InterproceduralCFG<Unit, SootMethod>> analysis = executeStaticAnalysis(target.taint.Loop.class.getName());
+        Set<String> defaultIDEResult = getResult(analysis);
+        Set<String> expected = new HashSet<>();
+        expected.add("a");
+        checkResults(defaultIDEResult, expected);
+    }
 
 }

@@ -5,7 +5,6 @@ import heros.FlowFunction;
 import soot.Local;
 import soot.SootMethod;
 import soot.Value;
-import soot.jimple.IntConstant;
 import soot.jimple.StaticFieldRef;
 
 import java.util.Collections;
@@ -35,14 +34,10 @@ public class CallFF implements FlowFunction<DFF> {
             return Collections.emptySet();
         }
         Set<DFF> res = new HashSet<>();
-        if(source==zeroValue || source.getValue() instanceof StaticFieldRef){
+        if (source == zeroValue || source.getValue() instanceof StaticFieldRef) {
             res.add(source);
         }
         for (int i = 0; i < callArgs.size(); i++) {
-            // Special case: check if function is called with integer literals as params
-            if (callArgs.get(i) instanceof IntConstant && source == zeroValue) {
-                res.add(DFF.asDFF(paramLocals.get(i)));
-            }
             // Ordinary case: just perform the mapping
             if (DFF.asDFF(callArgs.get(i)).equals(source)) {
                 res.add(DFF.asDFF(paramLocals.get(i)));
