@@ -148,7 +148,7 @@ public class TaintAnalysisTest extends IFDSTestSetUp {
         Set<String> defaultIDEResult = getResult(analysis);
         Set<String> expected = new HashSet<>();
         expected.add("f.x");
-        expected.add("y");
+        expected.add("a");
         checkResults(defaultIDEResult, expected);
     }
 

@@ -4,7 +4,6 @@ import aliasing.AliasManager;
 import analysis.data.DFF;
 import boomerang.scene.Val;
 import boomerang.scene.jimple.JimpleVal;
-import boomerang.scene.sparse.SparseCFGCache;
 import boomerang.util.AccessPath;
 import soot.SootMethod;
 import soot.Unit;
@@ -31,7 +30,7 @@ public class ArrayStoreAliasHandler implements AliasHandler {
     @Override
     public void handleAliases(Set<DFF> res) {
         if (this.arrayRef != null) {
-            AliasManager aliasManager = AliasManager.getInstance(SparseCFGCache.SparsificationStrategy.NONE, true);
+            AliasManager aliasManager = AliasManager.getInstance();
             Set<AccessPath> aliases = aliasManager.getAliases((Stmt) curr, method, arrayRef.getBase());
             for (AccessPath alias : aliases) {
                 Val base = alias.getBase();

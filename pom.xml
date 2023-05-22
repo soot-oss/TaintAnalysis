@@ -40,7 +40,7 @@
         <dependency>
             <groupId>de.fraunhofer.iem</groupId>
             <artifactId>boomerangPDS</artifactId>
-            <version>3.1.2-Sparse</version>
+            <version>3.1.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

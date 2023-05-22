@@ -12,7 +12,6 @@ import boomerang.scene.jimple.JimpleMethod;
 import boomerang.scene.jimple.JimpleStatement;
 import boomerang.scene.jimple.JimpleVal;
 import boomerang.scene.jimple.SootCallGraph;
-import boomerang.scene.sparse.SparseCFGCache;
 import boomerang.util.AccessPath;
 import com.google.common.base.Stopwatch;
 import com.google.common.cache.CacheBuilder;
@@ -46,31 +45,13 @@ public class AliasManager {
     private DataFlowScope dataFlowScope;
 
     private boolean disableAliasing = false;
-    private SparseCFGCache.SparsificationStrategy sparsificationStrategy;
-    private boolean ignoreAfterQuery;
 
 
     static class BoomerangOptions extends DefaultBoomerangOptions {
 
-        private SparseCFGCache.SparsificationStrategy sparsificationStrategy;
-        private boolean ignoreAfterQuery;
 
-        public BoomerangOptions(SparseCFGCache.SparsificationStrategy sparsificationStrategy, boolean ignoreAfterQuery) {
-            this.sparsificationStrategy = sparsificationStrategy;
-            this.ignoreAfterQuery = ignoreAfterQuery;
-        }
+        public BoomerangOptions() {
 
-        @Override
-        public SparseCFGCache.SparsificationStrategy getSparsificationStrategy() {
-            if (this.sparsificationStrategy == null) {
-                return SparseCFGCache.SparsificationStrategy.NONE;
-            }
-            return this.sparsificationStrategy;
-        }
-
-        @Override
-        public boolean ignoreSparsificationAfterQuery() {
-            return this.ignoreAfterQuery;
         }
 
         @Override
@@ -106,9 +87,7 @@ public class AliasManager {
 
     private static Duration totalAliasingDuration;
 
-    private AliasManager(SparseCFGCache.SparsificationStrategy sparsificationStrategy, boolean ignoreAfterQuery) {
-        this.sparsificationStrategy = sparsificationStrategy;
-        this.ignoreAfterQuery = ignoreAfterQuery;
+    private AliasManager() {
         totalAliasingDuration = Duration.ZERO;
         sootCallGraph = new SootCallGraph();
         dataFlowScope = SootDataFlowScope.make(Scene.v());
@@ -119,9 +98,9 @@ public class AliasManager {
         return totalAliasingDuration;
     }
 
-    public static synchronized AliasManager getInstance(SparseCFGCache.SparsificationStrategy sparsificationStrategy, boolean ignoreAfterQuery) {
-        if (INSTANCE == null || INSTANCE.sparsificationStrategy != sparsificationStrategy || INSTANCE.ignoreAfterQuery != ignoreAfterQuery) {
-            INSTANCE = new AliasManager(sparsificationStrategy, ignoreAfterQuery);
+    public static synchronized AliasManager getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new AliasManager();
         }
         return INSTANCE;
     }
@@ -138,7 +117,7 @@ public class AliasManager {
                                             // TODO: stabilize null pointer exception that happens sometimes in boomerang
                                             boomerangSolver =
                                                     new Boomerang(
-                                                            sootCallGraph, dataFlowScope, new BoomerangOptions(INSTANCE.sparsificationStrategy, INSTANCE.ignoreAfterQuery));
+                                                            sootCallGraph, dataFlowScope, new BoomerangOptions());
                                             BackwardBoomerangResults<Weight.NoWeight> results = boomerangSolver.solve(query);
                                             aliases = results.getAllAliases();
                                             boolean debug = false;
