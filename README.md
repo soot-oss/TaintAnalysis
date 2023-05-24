@@ -4,7 +4,7 @@ which uses Boomerang to resolve aliasing.
 
 ## Dependencies
 Following dependencies must be built to run the analysis.  
-- Heros: https://github.com/Sable/heros  
+- Heros: https://github.com/Sable/heros 
 - BoomerangPDS: https://github.com/CodeShield-Security/SPDS
 
 ## How to run
