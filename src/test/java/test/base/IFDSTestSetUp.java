@@ -44,8 +44,10 @@ public abstract class IFDSTestSetUp {
     private void setupSoot(String targetTestClassName) {
         G.reset();
         String userdir = System.getProperty("user.dir");
-		String sootCp = userdir + File.separator + "target" + File.separator + "test-classes"+ File.pathSeparator + "lib"+File.separator+"rt.jar";
-        Options.v().set_soot_classpath(sootCp);
+        String javaHome = System.getProperty("java.home");
+
+		String sootCp = userdir + File.separator + "target" + File.separator + "test-classes"+ File.pathSeparator + javaHome + File.separator +"lib"+File.separator+"rt.jar";
+		Options.v().set_soot_classpath(sootCp);
 
         // We want to perform a whole program, i.e. an interprocedural analysis.
         // We construct a basic CHA call graph for the program
