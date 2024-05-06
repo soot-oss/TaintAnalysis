@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=./PathExpression-1.0.0.jar -DgroupId=de.fraunhofer.iem -DartifactId=PathExpression -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true
